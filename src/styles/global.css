@@ -1,0 +1,65 @@
+/* Import Fonts: Inter (Sans-serif) & Playfair Display (Display) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700;800&display=swap');
+
+/* Import Leaflet CSS */
+@import "leaflet/dist/leaflet.css";
+
+/* Inisialisasi Tailwind v4 */
+@import "tailwindcss";
+
+@theme {
+  /* --- WARNA DASAR UI --- */
+  --color-krem: var(--color-bg-krem);
+  --color-putih: var(--color-card-putih);
+  --color-teks: var(--color-text-main);
+  --color-teks-sekunder: var(--color-text-muted);
+  --color-hijau-utama: var(--color-green-main);
+  --color-hijau-muda: var(--color-green-light);
+  --color-coklat-aksen: var(--color-brown-accent);
+  --color-garis: var(--color-line-base);
+
+  /* --- PALET DATA RAMAH BUTA WARNA --- */
+  /* Sekuensial (Viridis) */
+  --color-data-seq-1: #fde725;
+  --color-data-seq-2: #35b779;
+  --color-data-seq-3: #31688e;
+  --color-data-seq-4: #440154;
+
+  /* Kategorikal (Okabe-Ito) */
+  --color-data-cat-1: #E69F00;
+  --color-data-cat-2: #56B4E9;
+  --color-data-cat-3: #009E73;
+  --color-data-cat-4: #F0E442;
+  --color-data-cat-5: #0072B2;
+  --color-data-cat-6: #D55E00;
+
+  /* Divergen */
+  --color-data-div-1: #0571b0; 
+  --color-data-div-2: #92c5de; 
+  --color-data-div-3: #f7f7f7; 
+  --color-data-div-4: #f4a582; 
+  --color-data-div-5: #ca0020; 
+
+  /* Font */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Playfair Display", ui-serif, Georgia, serif;
+}
+
+:root {
+  /* Variabel mentah untuk warna UI */
+  --color-bg-krem: #FAF8F2;
+  --color-card-putih: #FFFFFF;
+  --color-text-main: #1F2A1F;
+  --color-text-muted: #4A5548;
+  --color-green-main: #2F5D2F;
+  --color-green-light: #E6EEDC;
+  --color-brown-accent: #7A5A3A;
+  --color-line-base: #D9D5C7;
+}
+
+body {
+  overflow-x: hidden; /* Mencegah scroll ke samping */
+  font-size: 16px; /* Aksesibilitas: batas minimal ukuran font */
+  background-color: var(--color-bg-krem);
+  color: var(--color-text-main);
+}
