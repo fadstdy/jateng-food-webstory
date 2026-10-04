@@ -1,3 +1,3 @@
 export const INSIGHT_MULTIVARIAT = {
-  pencilan: "[ISI MANUAL: Tuliskan alasan mengapa daerah pencilan ini berbeda dari yang lain, misalnya karena dominasi industri di daerah pertanian atau anomali produksi pasca-bencana. Jangan biarkan kosong saat rilis.]"
+  pencilan: "Hanya Kota Magelang yang teridentifikasi sebagai pencilan. Hal ini karena produksi padi per kapita sangat rendah dan basis tenaga kerja pertanian kecil, mencerminkan karakter wilayah perkotaan. Empat wilayah lainnya merupakan kandidat pencilan karena secara statistik jaraknya masih berada di bawah ambang."
 };

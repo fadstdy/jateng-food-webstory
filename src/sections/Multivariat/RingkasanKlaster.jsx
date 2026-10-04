@@ -20,7 +20,7 @@ const RingkasanKlaster = ({ data }) => {
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col h-full overflow-hidden">
       <div className="p-5 border-b border-gray-100 flex flex-col sm:flex-row justify-between sm:items-center gap-2">
         <div>
-          <h3 className="font-bold text-[#2F5D2F] text-lg">G. Profil Klaster</h3>
+          <h3 className="font-bold text-[#2F5D2F] text-lg">F. Profil Klaster</h3>
           <p className="text-xs text-[#7A5A3A] mt-1">Klik kartu untuk menyorot anggota di peta/biplot.</p>
         </div>
         <div className="text-right">
@@ -33,7 +33,7 @@ const RingkasanKlaster = ({ data }) => {
 
       {isWeak && (
         <div className="bg-orange-50 px-5 py-2 text-xs text-orange-700 border-b border-orange-100 font-medium">
-          ⚠️ Struktur klaster lemah (Silhouette &lt; 0.25); pengelompokan bersifat eksploratif.
+          Struktur klaster lemah (Silhouette &lt; 0.25); pengelompokan bersifat eksploratif.
         </div>
       )}
 

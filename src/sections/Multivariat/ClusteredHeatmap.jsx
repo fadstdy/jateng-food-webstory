@@ -26,7 +26,6 @@ const ClusteredHeatmap = ({ data }) => {
   }, [data.units]);
 
   const plotData = useMemo(() => {
-    // 1. PERBAIKAN: Singkat nama variabel di Sumbu X agar rapi
     const xLabels = orderedVars.map(v => {
       return VARIABEL_CONFIG[v.id].label
         .replace(/ per kapita/gi, '/kap')
@@ -34,9 +33,8 @@ const ClusteredHeatmap = ({ data }) => {
         .replace(/Pengeluaran untuk /gi, 'Pengeluaran ');
     });
     
-    // 2. PERBAIKAN: Singkat Kabupaten menjadi Kab. di Sumbu Y
     const yLabels = sortedUnits.map(u => {
-      const namaPendek = u.nama.replace(/Kabupaten /gi, 'Kab. ');
+      const namaPendek = u.nama.replace(/(Kabupaten |Kota )/gi, '');
       return `[K${u.klaster}] ${namaPendek}`;
     });
     
@@ -72,7 +70,6 @@ const ClusteredHeatmap = ({ data }) => {
     const hasSelection = kodeTerpilih || (kodeBrush && kodeBrush.length > 0);
     if (hasSelection) {
       sortedUnits.forEach((u, idx) => {
-        // PERBAIKAN: Gunakan String() untuk perbandingan ID
         const isSelected = String(kodeTerpilih) === String(u.kode_kabkota) || 
                            (kodeBrush && kodeBrush.map(String).includes(String(u.kode_kabkota)));
         if (!isSelected) {
@@ -91,12 +88,14 @@ const ClusteredHeatmap = ({ data }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col h-full overflow-hidden relative">
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col h-fit overflow-hidden relative">
       <div className="p-4 border-b border-gray-100">
         <h3 className="font-bold text-[#2F5D2F] text-sm">C. Matriks Profil Wilayah</h3>
         <p className="text-[10px] text-[#7A5A3A] mt-1">Sumbu X diurutkan berdasarkan kedekatan. (Merah = di bawah rerata, Biru = di atas rerata)</p>
       </div>
-      <div className="w-full h-[450px] sm:h-[600px] overflow-x-auto relative">
+      {/* PERBAIKAN: overflow-y-auto dihapus, hanya menyisakan overflow-x-auto untuk responsif HP */}
+      <div className="w-full h-[350px] sm:h-[400px] overflow-x-auto relative">
+        {/* PERBAIKAN: min-h-[600px] dihapus agar fit mengikuti kontainer luarnya */}
         <div className="min-w-[450px] h-full p-2">
           <Suspense fallback={<div className="h-full flex items-center justify-center text-xs text-gray-400">Merender Heatmap...</div>}>
             <Plot
@@ -107,8 +106,7 @@ const ClusteredHeatmap = ({ data }) => {
                 hovertemplate: '<b>%{customdata.nama}</b> (K%{customdata.klaster})<br>%{customdata.varLabel}<br>Z-Score: <b>%{z:.2f}</b><br>Nilai: %{customdata.nilaiMentah}<extra></extra>'
               }]}
               layout={{
-                // PERBAIKAN: Margin disesuaikan agar label sumbu tidak terpotong
-                autosize: true, margin: { l: 140, r: 20, t: 20, b: 110 },
+                autosize: true, margin: { l: 90, r: 10, t: 10, b: 85 },
                 xaxis: { tickangle: 45, tickfont: { size: 9 } },
                 yaxis: { tickfont: { size: 9, color: '#333' }, autorange: 'reversed', dtick: 1 },
                 shapes: layoutShapes, paper_bgcolor: 'transparent', plot_bgcolor: 'transparent'

@@ -9,7 +9,7 @@ const KartuPencilan = ({ data }) => {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 h-full flex flex-col overflow-hidden">
       <div className="p-5 border-b border-gray-100 bg-red-50/30">
-        <h3 className="font-bold text-[#2F5D2F] text-lg">F. Daftar Pencilan</h3>
+        <h3 className="font-bold text-[#2F5D2F] text-lg">E. Daftar Pencilan</h3>
         <p className="text-xs text-[#7A5A3A] mt-1">
           Top 5 jarak Mahalanobis. Ambang batas (df=3): <span className="font-mono font-bold">{ambang_chi2_975.toFixed(2)}</span>.
         </p>
@@ -58,7 +58,7 @@ const KartuPencilan = ({ data }) => {
         </table>
 
         <div className="bg-[#FAF8F2] p-3 rounded-lg border border-[#e8dfc8] text-xs text-gray-700 italic">
-          "{INSIGHT_MULTIVARIAT.pencilan}"
+          {INSIGHT_MULTIVARIAT.pencilan}
         </div>
       </div>
     </div>

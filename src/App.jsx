@@ -18,10 +18,10 @@ export default function App() {
               return (
                 <ErrorBoundary key={config.id}>
                   <SectionWrapper
-                    id={config.id}
-                    title={config.title}
-                    subtitle={config.subtitle}
-                    bridgeText={config.bridgeText}
+                    // id={config.id}
+                    // title={config.title}
+                    // subtitle={config.subtitle}
+                    // bridgeText={config.bridgeText}
                   >
                     <Component />
                   </SectionWrapper>

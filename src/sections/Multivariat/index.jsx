@@ -27,9 +27,9 @@ const MultivariatSection = () => {
     <section id="multivariat" className="py-16 bg-[#FAF8F2] min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         
-        <header className="mb-10 text-center">
+        <header className="mb-10 text-left">
           <h2 className="text-3xl font-bold text-[#2F5D2F] mb-3">Analisis Multivariat</h2>
-          <p className="text-[#7A5A3A] max-w-2xl mx-auto">
+          <p className="text-[#7A5A3A]">
             Mengeksplorasi karakteristik ketahanan pangan daerah melalui reduksi dimensi dan pengelompokan.
           </p>
         </header>

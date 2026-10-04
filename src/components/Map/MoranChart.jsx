@@ -3,18 +3,17 @@ export default function MoranChart({ moranData, currentYear, meta }) {
 
   const alpha = meta?.analisis?.alpha || 0.05;
   const width = 250;
-  const height = 80;
+  const height = 90;
   const padX = 20;
   const padY = 15;
 
-  // Mencari min max untuk skala chart
   const years = moranData.map(d => d.tahun);
   const values = moranData.map(d => d.moran_padi_I);
   
   const minX = Math.min(...years);
   const maxX = Math.max(...years);
   const minY = Math.min(0, ...values); 
-  const maxY = Math.max(...values) * 1.2; // Spasi atas
+  const maxY = Math.max(...values) * 1.2; 
 
   const getX = (year) => padX + ((year - minX) / (maxX - minX)) * (width - padX * 2);
   const getY = (val) => height - padY - ((val - minY) / (maxY - minY)) * (height - padY * 2);
@@ -22,25 +21,25 @@ export default function MoranChart({ moranData, currentYear, meta }) {
   const pathD = `M ${moranData.map(d => `${getX(d.tahun)},${getY(d.moran_padi_I)}`).join(' L ')}`;
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
-      <h3 className="font-bold text-gray-900 text-sm mb-1">Tren Autokorelasi Spasial</h3>
-      <p className="text-[11px] text-gray-500 mb-3 leading-tight">
-        Indeks Global Moran's I. Nilai positif berarti wilayah bernilai mirip cenderung berdekatan.
-      </p>
+    // Tambahkan h-full agar kotak ini meregang mengisi sisa ruang sampai rata bawah dengan peta
+    <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm h-full flex flex-col">
+      
+      <div className="mb-4">
+         <h3 className="font-bold text-gray-900 text-sm mb-1">Tren Autokorelasi</h3>
+         {/* Teks diperpendek menjadi satu kalimat sederhana */}
+         <p className="text-[11px] text-gray-500 leading-tight">
+           Moran's I Positif: wilayah mirip cenderung mengelompok.
+         </p>
+      </div>
 
-      <div className="w-full flex justify-center">
-        <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto max-w-[250px] overflow-visible">
-          {/* Garis 0 */}
+      {/* Gunakan flex-1 agar SVG berada di tengah kotak yang memanjang */}
+      <div className="w-full flex-1 flex flex-col justify-center items-center relative min-h-0">
+        <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto max-w-[220px] overflow-visible">
           <line x1={padX} y1={getY(0)} x2={width - padX} y2={getY(0)} stroke="#e5e7eb" strokeWidth="2" strokeDasharray="4 2" />
-          
-          {/* Garis Tren */}
           <path d={pathD} fill="none" stroke="#9ca3af" strokeWidth="2" />
-          
-          {/* Titik Data */}
           {moranData.map((d) => {
             const isSignificant = d.moran_padi_p < alpha;
             const isCurrent = d.tahun === currentYear;
-            
             return (
               <g key={d.tahun}>
                 <circle 
@@ -63,7 +62,7 @@ export default function MoranChart({ moranData, currentYear, meta }) {
         </svg>
       </div>
       
-      <div className="flex justify-center gap-4 mt-2 text-[10px] text-gray-500">
+      <div className="flex justify-center gap-4 mt-auto pt-2 text-[10px] text-gray-500">
          <div className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-gray-700"></span> Signifikan</div>
          <div className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-gray-300"></span> Tidak</div>
       </div>
