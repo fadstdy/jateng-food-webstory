@@ -99,15 +99,15 @@ const BiplotPCA = ({ data }) => {
           kode: u.kode_kabkota,
           nama: u.nama,
           klaster: klasterId,
-          teksPencilan: u.pencilan.is_outlier ? " ⚠ (Pencilan)" : "",
+          teksPencilan: u.pencilan.is_outlier ? " ⚠" : "",
           mentah: u.nilai_mentah 
         })),
         marker: {
-          size: 9,
+          size: 8, // Sedikit diperkecil
           color: units.map(u => kodeBrush.length > 0 && !kodeBrush.includes(u.kode_kabkota) ? '#e5e7eb' : klasterInfo.warna),
           line: {
             color: units.map(u => u.pencilan.is_outlier ? '#18181b' : '#ffffff'),
-            width: units.map(u => u.pencilan.is_outlier ? 2 : 0.5)
+            width: units.map(u => u.pencilan.is_outlier ? 1.5 : 0.5)
           },
           opacity: units.map(u => kodeBrush.length > 0 && !kodeBrush.includes(u.kode_kabkota) ? 0.3 : 1)
         },
@@ -126,16 +126,17 @@ const BiplotPCA = ({ data }) => {
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col h-full overflow-hidden relative">
-      <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-[#FAF8F2]">
+      {/* PERBAIKAN: Padding atas p-4 dikurangi menjadi p-3 */}
+      <div className="p-3 border-b border-gray-100 flex justify-between items-center bg-[#FAF8F2]">
         <div>
-          <h3 className="font-bold text-[#2F5D2F] text-base">B. Biplot PCA & Pengelompokan</h3>
-          <p className="text-[10px] text-[#7A5A3A] mt-0.5">Interaksi: {window.innerWidth < 640 ? 'Gunakan tombol area' : 'Drag untuk brush (Lasso)'}. Klik titik untuk detail.</p>
+          <h3 className="font-bold text-[#2F5D2F] text-sm">B. Biplot PCA & Pengelompokan</h3>
+          <p className="text-[9px] text-[#7A5A3A] mt-0.5">Interaksi: Drag area (Brush). Klik titik untuk detail.</p>
         </div>
         <div className="flex gap-2">
           {window.innerWidth < 640 && (
             <button 
               onClick={() => setDragMode(prev => prev === 'pan' ? 'lasso' : 'pan')}
-              className="text-[10px] px-2 py-1 rounded bg-[#2F5D2F] text-white"
+              className="text-[9px] px-2 py-1 rounded bg-[#2F5D2F] text-white"
             >
               Mode: {dragMode === 'pan' ? 'Geser' : 'Pilih'}
             </button>
@@ -143,7 +144,7 @@ const BiplotPCA = ({ data }) => {
           {kodeBrush.length > 0 && (
             <button 
               onClick={clearBrush}
-              className="text-[10px] px-2 py-1 rounded bg-red-100 text-red-600 hover:bg-red-200 transition-colors"
+              className="text-[9px] px-2 py-1 rounded bg-red-100 text-red-600 hover:bg-red-200 transition-colors"
             >
               Hapus Pilihan ({kodeBrush.length})
             </button>
@@ -151,25 +152,25 @@ const BiplotPCA = ({ data }) => {
         </div>
       </div>
 
-      {/* TINGGI DITEKAN DRASTIS: Dari h-[420px] menjadi h-[260px] sm:h-[300px] */}
-      <div className="w-full h-[260px] sm:h-[300px] relative z-0">
+      {/* PERBAIKAN: Tinggi grafik dipotong lagi menjadi sm:h-[260px] */}
+      <div className="w-full h-[220px] sm:h-[260px] relative z-0">
         <Suspense fallback={<div className="h-full flex items-center justify-center text-[10px] text-[#7A5A3A] animate-pulse">Merender Plotly...</div>}>
           <Plot
             data={plotData}
             layout={{
               autosize: true, dragmode: dragMode, hovermode: 'closest',
-              margin: { l: 30, r: 30, t: 15, b: 30 }, // Margin dipersempit
+              margin: { l: 25, r: 25, t: 10, b: 20 }, // Margin ditarik lebih ketat
               xaxis: { 
-                title: { text: `PC1 (${Number(varPC1).toFixed(1)}%)`, font: { size: 10, color: '#7A5A3A' } },
-                zeroline: true, zerolinecolor: '#e5e7eb', zerolinewidth: 2, showgrid: true, gridcolor: '#f3f4f6', tickfont: {size:9}
+                title: { text: `PC1 (${Number(varPC1).toFixed(1)}%)`, font: { size: 9, color: '#7A5A3A' } },
+                zeroline: true, zerolinecolor: '#e5e7eb', zerolinewidth: 2, showgrid: true, gridcolor: '#f3f4f6', tickfont: {size:8}
               },
               yaxis: { 
-                title: { text: `PC2 (${Number(varPC2).toFixed(1)}%)`, font: { size: 10, color: '#7A5A3A' } },
-                zeroline: true, zerolinecolor: '#e5e7eb', zerolinewidth: 2, showgrid: true, gridcolor: '#f3f4f6', tickfont: {size:9}
+                title: { text: `PC2 (${Number(varPC2).toFixed(1)}%)`, font: { size: 9, color: '#7A5A3A' } },
+                zeroline: true, zerolinecolor: '#e5e7eb', zerolinewidth: 2, showgrid: true, gridcolor: '#f3f4f6', tickfont: {size:8}
               },
               annotations: annotations,
               legend: {
-                orientation: 'h', yanchor: 'top', y: -0.15, xanchor: 'center', x: 0.5, font: { size: 9 }
+                orientation: 'h', yanchor: 'top', y: -0.1, xanchor: 'center', x: 0.5, font: { size: 8 }, itemwidth: 30
               },
               paper_bgcolor: 'transparent', plot_bgcolor: 'transparent'
             }}
@@ -182,25 +183,25 @@ const BiplotPCA = ({ data }) => {
         </Suspense>
       </div>
 
-      {/* PANEL INFO DIPADATKAN (Grid Dense) */}
+      {/* PERBAIKAN: Panel diringkas p-2 agar lebih hemat tempat vertikal */}
       {kodeTerpilih && (
-        <div className="p-3 border-t border-gray-200 bg-[#FAF8F2]/80 mt-auto">
+        <div className="p-2 border-t border-gray-200 bg-[#FAF8F2]/80 mt-auto">
           {(() => {
             const u = data?.units?.find(x => String(x.kode_kabkota) === String(kodeTerpilih));
             if (!u) return null;
             return (
               <>
-                <div className="flex justify-between items-center mb-1.5">
-                  <span className="font-bold text-[#2F5D2F] text-sm leading-none">{u.nama}</span>
-                  <span className="text-[8px] text-white bg-[#7A5A3A] px-1.5 py-0.5 rounded uppercase tracking-wider">Nilai Asli</span>
+                <div className="flex justify-between items-center mb-1">
+                  <span className="font-bold text-[#2F5D2F] text-[13px] leading-none">{u.nama}</span>
+                  <span className="text-[7px] text-white bg-[#7A5A3A] px-1 py-0.5 rounded uppercase tracking-wider">Nilai Asli</span>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-3 gap-y-1">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-2 gap-y-0.5">
                   {Object.keys(VARIABEL_CONFIG).map(vid => {
                     const nilaiAsli = u?.nilai_mentah?.[vid] ?? u?.nilai_mentah?.[VARIABEL_CONFIG[vid]?.nama] ?? 0;
                     return (
                       <div key={vid} className="flex flex-col border-b border-[#e8dfc8] pb-0.5">
-                        <span className="text-[9px] text-[#7A5A3A] truncate leading-tight">{VARIABEL_CONFIG[vid]?.label}</span>
-                        <span className="font-mono text-gray-800 text-[11px] leading-tight font-medium">{fmtNilai(vid, nilaiAsli)}</span>
+                        <span className="text-[8px] text-[#7A5A3A] truncate leading-tight">{VARIABEL_CONFIG[vid]?.label}</span>
+                        <span className="font-mono text-gray-800 text-[10px] leading-tight font-medium">{fmtNilai(vid, nilaiAsli)}</span>
                       </div>
                     );
                   })}

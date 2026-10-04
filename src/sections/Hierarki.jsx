@@ -120,110 +120,104 @@ export default function Hierarki() {
   if (error) return <div className="p-4 text-red-600 bg-red-50 rounded-lg text-center font-medium">Error: {error}</div>;
 
   return (
-    <section className="w-full max-w-7xl mx-auto py-12 px-4 md:px-8">
-      {/* HEADER & INSIGHTS */}
-      <div className="mb-8">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Peta & Proporsi Pengeluaran Pangan</h2>
-        <p className="text-gray-600 mb-6">Rata-rata pengeluaran makanan per kapita sebulan, Jawa Tengah, 2025 (Rupiah)</p>
+    // h-[calc(100vh-90px)] membatasi tinggi section seukuran layar (dikurangi tinggi navbar)
+    // flex & flex-col mengatur tumpukan secara dinamis
+    <section className="w-full max-w-[1400px] mx-auto px-4 md:px-8 py-4 h-[calc(100vh-90px)] min-h-[500px] flex flex-col">
+      
+      {/* HEADER: Ukuran font judul diturunkan (text-xl md:text-2xl) dan dibuat shrink-0 agar tidak tertekan */}
+      <div className="mb-4 shrink-0 w-full">
+        <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">
+          Peta & Proporsi Pengeluaran Pangan
+        </h2>
+        <p className="text-sm text-gray-600 whitespace-nowrap overflow-hidden text-ellipsis">
+          Rata-rata pengeluaran makanan per kapita sebulan, Jawa Tengah, 2025 (Rupiah)
+        </p>
+      </div>
 
-        {insights && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <div className="bg-blue-50 border border-blue-100 p-4 rounded-xl shadow-sm">
-              <p className="text-xs text-blue-600 font-semibold uppercase tracking-wider mb-1">Kelompok Terbesar</p>
-              <p className="text-lg font-bold text-gray-900">{insights.largestGroup.label}</p>
-              <p className="text-sm text-gray-700">{insights.largestGroup.val} ({insights.largestGroup.pct} dari total)</p>
-            </div>
-            <div className="bg-emerald-50 border border-emerald-100 p-4 rounded-xl shadow-sm">
-              <p className="text-xs text-emerald-600 font-semibold uppercase tracking-wider mb-1">Konsentrasi 3 Teratas</p>
-              <p className="text-lg font-bold text-gray-900">{insights.top3Share} Pengeluaran</p>
-              <p className="text-sm text-gray-700">Terserap hanya oleh 3 kelompok makanan utama.</p>
-            </div>
-            <div className="bg-purple-50 border border-purple-100 p-4 rounded-xl shadow-sm">
-              <p className="text-xs text-purple-600 font-semibold uppercase tracking-wider mb-1">Komoditas Tunggal Tertinggi</p>
-              <p className="text-lg font-bold text-gray-900">{insights.largestCommodity.label}</p>
-              <p className="text-sm text-gray-700">{insights.largestCommodity.val} ({insights.largestCommodity.pct} dari total)</p>
-            </div>
+      {/* GRID KONTEN: flex-1 dan min-h-0 adalah kunci agar tidak meluap (overflow) ke bawah layar */}
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-5 min-h-0">
+        
+        {/* KOLOM KIRI (33%) */}
+        <div className="lg:col-span-4 flex flex-col h-full gap-4">
+          
+          {/* TAB PEMILIHAN GRAFIK */}
+          <div className="flex rounded-lg bg-gray-200/60 p-1 shadow-inner shrink-0">
+            <button 
+              onClick={() => setActiveTab('treemap')}
+              className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-colors ${activeTab === 'treemap' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}
+            >
+              Treemap
+            </button>
+            <button 
+              onClick={() => setActiveTab('sunburst')}
+              className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-colors ${activeTab === 'sunburst' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}
+            >
+              Sunburst
+            </button>
           </div>
-        )}
-      </div>
 
-      {/* TABS UNTUK MOBILE */}
-      <div className="md:hidden flex rounded-lg bg-gray-100 p-1 mb-4 shadow-inner">
-        <button 
-          onClick={() => setActiveTab('treemap')}
-          className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${activeTab === 'treemap' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}
-        >
-          Treemap
-        </button>
-        <button 
-          onClick={() => setActiveTab('sunburst')}
-          className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${activeTab === 'sunburst' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}
-        >
-          Sunburst
-        </button>
-      </div>
-
-      {/* CONTAINER GRAFIK */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-4">
-        {/* Treemap */}
-        <div className={`relative w-full h-[450px] md:h-[560px] bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden ${activeTab === 'treemap' ? 'block' : 'hidden md:block'}`}>
-          {loading ? (
-             <div className="absolute inset-0 flex items-center justify-center bg-gray-50 animate-pulse text-gray-500">Memuat Treemap...</div>
-          ) : (
-            <Suspense fallback={<div className="w-full h-full bg-gray-50 animate-pulse"></div>}>
-              <Plot
-                data={plotData.treemap}
-                layout={{ margin: { t: 0, l: 0, r: 0, b: 0 }, autosize: true, paper_bgcolor: 'transparent', uniformtext: { minsize: 10, mode: 'hide' } }}
-                config={{ displayModeBar: false, scrollZoom: false, responsive: true }}
-                style={{ width: '100%', height: '100%' }} useResizeHandler={true}
-              />
-            </Suspense>
+          {/* KARTU INSIGHT: Menggunakan overflow-y-auto jika tinggi layar sangat kecil */}
+          {insights && (
+            <div className="flex flex-col gap-3 overflow-y-auto custom-scrollbar pr-1 pb-1">
+              <div className="bg-blue-50/50 border border-blue-100 p-3 rounded-xl shadow-sm">
+                <p className="text-[11px] text-blue-600 font-bold uppercase tracking-wider mb-1">Kelompok Terbesar</p>
+                <p className="text-base font-bold text-gray-900 leading-tight">{insights.largestGroup.label}</p>
+                <p className="text-xs text-gray-700 mt-1">{insights.largestGroup.val} ({insights.largestGroup.pct} dari total)</p>
+              </div>
+              <div className="bg-emerald-50/50 border border-emerald-100 p-3 rounded-xl shadow-sm">
+                <p className="text-[11px] text-emerald-600 font-bold uppercase tracking-wider mb-1">Konsentrasi 3 Teratas</p>
+                <p className="text-base font-bold text-gray-900 leading-tight">{insights.top3Share} Pengeluaran</p>
+                <p className="text-xs text-gray-700 mt-1">Terserap hanya oleh 3 kelompok utama.</p>
+              </div>
+              <div className="bg-purple-50/50 border border-purple-100 p-3 rounded-xl shadow-sm">
+                <p className="text-[11px] text-purple-600 font-bold uppercase tracking-wider mb-1">Komoditas Tunggal Tertinggi</p>
+                <p className="text-base font-bold text-gray-900 leading-tight">{insights.largestCommodity.label}</p>
+                <p className="text-xs text-gray-700 mt-1">{insights.largestCommodity.val} ({insights.largestCommodity.pct} dari total)</p>
+              </div>
+            </div>
           )}
         </div>
 
-        {/* Sunburst */}
-        <div className={`relative w-full h-[450px] md:h-[560px] bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden ${activeTab === 'sunburst' ? 'block' : 'hidden md:block'}`}>
+        {/* KOLOM KANAN (67%): Area Grafik */}
+        {/* Menggunakan relative dan absolute inset-0 agar Plotly mutlak menempel pada batas container */}
+        <div className="lg:col-span-8 relative w-full h-full bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden flex flex-col">
           {loading ? (
-             <div className="absolute inset-0 flex items-center justify-center bg-gray-50 animate-pulse text-gray-500">Memuat Sunburst...</div>
+             <div className="absolute inset-0 flex items-center justify-center bg-gray-50 animate-pulse text-gray-500">Memuat Visualisasi...</div>
           ) : (
-            <Suspense fallback={<div className="w-full h-full bg-gray-50 animate-pulse"></div>}>
-              <Plot
-                data={plotData.sunburst}
-                layout={{ margin: { t: 0, l: 0, r: 0, b: 0 }, autosize: true, paper_bgcolor: 'transparent', uniformtext: { minsize: 10, mode: 'hide' } }}
-                config={{ displayModeBar: false, scrollZoom: false, responsive: true }}
-                style={{ width: '100%', height: '100%' }} useResizeHandler={true}
-              />
-            </Suspense>
+            <>
+              {/* TREEMAP */}
+              {/* pb-7 memberikan ruang aman agar grafik tidak menabrak tulisan Sumber di pojok kanan bawah */}
+              <div className={`absolute inset-0 p-1 pb-7 ${activeTab === 'treemap' ? 'block' : 'hidden'}`}>
+                <Suspense fallback={<div className="w-full h-full bg-gray-50 animate-pulse"></div>}>
+                  <Plot
+                    data={plotData.treemap}
+                    layout={{ margin: { t: 0, l: 0, r: 0, b: 0 }, autosize: true, paper_bgcolor: 'transparent', uniformtext: { minsize: 10, mode: 'hide' } }}
+                    config={{ displayModeBar: false, scrollZoom: false, responsive: true }}
+                    style={{ width: '100%', height: '100%' }} useResizeHandler={true}
+                  />
+                </Suspense>
+              </div>
+
+              {/* SUNBURST */}
+              <div className={`absolute inset-0 p-1 pb-7 ${activeTab === 'sunburst' ? 'block' : 'hidden'}`}>
+                <Suspense fallback={<div className="w-full h-full bg-gray-50 animate-pulse"></div>}>
+                  <Plot
+                    data={plotData.sunburst}
+                    layout={{ margin: { t: 0, l: 0, r: 0, b: 0 }, autosize: true, paper_bgcolor: 'transparent', uniformtext: { minsize: 10, mode: 'hide' } }}
+                    config={{ displayModeBar: false, scrollZoom: false, responsive: true }}
+                    style={{ width: '100%', height: '100%' }} useResizeHandler={true}
+                  />
+                </Suspense>
+              </div>
+            </>
           )}
+          
+          <div className="absolute bottom-2 right-3 text-[10px] text-gray-400 bg-white/80 px-2 py-0.5 rounded pointer-events-none z-10">
+            Sumber: BPS, Susenas Jawa Tengah 2025
+          </div>
         </div>
-      </div>
 
-      <div className="mt-3 text-right text-xs text-gray-500">
-        Sumber: BPS, Pengeluaran untuk Konsumsi Penduduk Provinsi Jawa Tengah, 2025
       </div>
-
-      {/* CATATAN RANCANGAN (ACCORDION) */}
-      <details className="mt-8 group bg-gray-50 border border-gray-200 rounded-xl shadow-sm [&_summary::-webkit-details-marker]:hidden">
-        <summary className="flex items-center justify-between cursor-pointer p-5 font-semibold text-gray-800 transition-colors hover:bg-gray-100">
-          <span>Catatan Rancangan & Metodologi Visualisasi</span>
-          <span className="transition group-open:rotate-180">
-            <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
-          </span>
-        </summary>
-        <div className="p-5 border-t border-gray-200 text-sm text-gray-700 leading-relaxed space-y-3 bg-white rounded-b-xl">
-          <p>Visualisasi ini dibangun mematuhi prinsip desain informasi untuk hierarki data:</p>
-          <ul className="list-disc pl-5 space-y-1">
-            <li><strong>Ukuran/Area/Sudut:</strong> Mengkodekan variabel kuantitatif (Total Pengeluaran). Metode ini sangat efektif untuk membandingkan porsi bagian terhadap keseluruhan <em>(part-to-whole)</em> secara intuitif.</li>
-            <li><strong>Warna:</strong> Mengkodekan variabel nominal/kategorikal (Kelompok Makanan). Komoditas mewarisi warna dari kelompok induknya untuk mempermudah identifikasi pola spasial.</li>
-            <li><strong>Navigasi <em>Drill-down</em>:</strong> Menggunakan struktur bersarang <em>(nesting)</em> dengan batas <code>maxdepth: 2</code> agar layar tidak terlalu padat. Sinkronisasi kedalaman difasilitasi oleh fitur <em>pathbar</em> bawaan yang dijamin stabil karena dikelola langsung oleh <em>engine</em> SVG tanpa siklus render ulang DOM eksternal.</li>
-          </ul>
-          <p className="mt-2 font-semibold">Keterbatasan Data & Penyesuaian:</p>
-          <ul className="list-disc pl-5 space-y-1">
-            <li>Nilai induk (Level 2) direkalkulasi secara dinamis di <em>frontend</em> untuk memastikan 100% kongruen dengan total anak-anaknya, guna menghindari ruang kosong <em>(remainder/blank space)</em> akibat selisih pembulatan publikasi data BPS asli.</li>
-            <li>Harga implisit tidak digunakan sebagai dimensi visual utama karena tidak dapat diagregasikan pada entitas bersatuan jamak, dan bukan merepresentasikan harga pasar melainkan proksi nilai.</li>
-          </ul>
-        </div>
-      </details>
     </section>
   );
-}
+}    
