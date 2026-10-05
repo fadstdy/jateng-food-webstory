@@ -26,11 +26,19 @@ const ClusteredHeatmap = ({ data }) => {
   }, [data.units]);
 
   const plotData = useMemo(() => {
+    // Teks sudah disisipkan <br> agar terbagi menjadi dua baris
     const xLabels = orderedVars.map(v => {
-      return VARIABEL_CONFIG[v.id].label
-        .replace(/ per kapita/gi, '/kap')
-        .replace(/Penduduk bekerja di /gi, 'Pekerja ')
-        .replace(/Pengeluaran untuk /gi, 'Pengeluaran ');
+      let label = VARIABEL_CONFIG[v.id].label.replace(/ per kapita/gi, '/kap');
+      label = label.replace('Penduduk bekerja di pertanian', 'Pekerja<br>Pertanian');
+      label = label.replace('Pengeluaran untuk makanan', 'Pengeluaran<br>Makanan');
+      label = label.replace('Share PDRB pertanian', 'Share PDRB<br>Pertanian');
+      label = label.replace('Produktivitas padi', 'Produktivitas<br>Padi');
+      label = label.replace('Konsumsi kalori', 'Konsumsi<br>Kalori');
+      label = label.replace('Konsumsi protein', 'Konsumsi<br>Protein');
+      label = label.replace('Produksi cabai/kap', 'Produksi<br>Cabai/kap');
+      label = label.replace('Produksi telur/kap', 'Produksi<br>Telur/kap');
+      label = label.replace('Produksi padi/kap', 'Produksi<br>Padi/kap');
+      return label;
     });
     
     const yLabels = sortedUnits.map(u => {
@@ -93,9 +101,7 @@ const ClusteredHeatmap = ({ data }) => {
         <h3 className="font-bold text-[#2F5D2F] text-sm">C. Matriks Profil Wilayah</h3>
         <p className="text-[10px] text-[#7A5A3A] mt-1">Sumbu X diurutkan berdasarkan kedekatan. (Merah = di bawah rerata, Biru = di atas rerata)</p>
       </div>
-      {/* PERBAIKAN: overflow-y-auto dihapus, hanya menyisakan overflow-x-auto untuk responsif HP */}
       <div className="w-full h-[350px] sm:h-[400px] overflow-x-auto relative">
-        {/* PERBAIKAN: min-h-[600px] dihapus agar fit mengikuti kontainer luarnya */}
         <div className="min-w-[450px] h-full p-2">
           <Suspense fallback={<div className="h-full flex items-center justify-center text-xs text-gray-400">Merender Heatmap...</div>}>
             <Plot
@@ -106,8 +112,10 @@ const ClusteredHeatmap = ({ data }) => {
                 hovertemplate: '<b>%{customdata.nama}</b> (K%{customdata.klaster})<br>%{customdata.varLabel}<br>Z-Score: <b>%{z:.2f}</b><br>Nilai: %{customdata.nilaiMentah}<extra></extra>'
               }]}
               layout={{
-                autosize: true, margin: { l: 90, r: 10, t: 10, b: 85 },
-                xaxis: { tickangle: 45, tickfont: { size: 9 } },
+                // PERBAIKAN: Margin bawah (b) dilebarkan menjadi 75 agar teks vertikal tidak terpotong
+                autosize: true, margin: { l: 90, r: 10, t: 10, b: 75 },
+                // PERBAIKAN: tickangle diubah menjadi -90 agar teks tegak lurus (vertikal)
+                xaxis: { tickangle: -90, tickfont: { size: 9 } },
                 yaxis: { tickfont: { size: 9, color: '#333' }, autorange: 'reversed', dtick: 1 },
                 shapes: layoutShapes, paper_bgcolor: 'transparent', plot_bgcolor: 'transparent'
               }}
