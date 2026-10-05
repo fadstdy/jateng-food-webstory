@@ -213,11 +213,11 @@ export default function Hierarki() {
 
             <div className="mt-1 bg-gray-50 border border-gray-200 p-2.5 rounded-xl shadow-sm shrink-0">
               <div className="flex items-center gap-1.5 mb-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-amber-500"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                
                 <p className="text-[9px] text-gray-700 font-bold uppercase tracking-wider">Keterbatasan Data</p>
               </div>
               <p className="text-[10px] text-gray-500 leading-relaxed text-justify">
-                <strong>Efek Basis Rendah:</strong> Laju pertumbuhan (YoY) pada komoditas dengan nilai awal sangat kecil dapat menghasilkan lonjakan persentase ekstrem. Interpretasikan warna pekat pada kotak kecil secara hati-hati.
+                Pertumbuhan YoY dapat ekstrem pada komoditas dengan nilai awal sangat kecil (low-base effect), dan bersifat nominal. Baca warna sebagai arah perubahan, bukan besaran pasti.
               </p>
             </div>
           </div>
