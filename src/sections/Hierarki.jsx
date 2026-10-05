@@ -55,9 +55,10 @@ export default function Hierarki() {
           });
         }
 
+        // --- SKALA WARNA DIVERGEN: ORANYE (NEGATIF) - PUTIH - BIRU (POSITIF) ---
         const colorScale = scaleLinear()
           .domain([-COLOR_LIMIT, 0, COLOR_LIMIT])
-          .range(['#b2182b', '#f7f7f7', '#1b7837']) 
+          .range(['#e66101', '#f7f7f7', '#0571b0']) // Palet Ramah Buta Warna
           .clamp(true); 
 
         const calculatedValues = {};
@@ -145,10 +146,8 @@ export default function Hierarki() {
   if (error) return <div className="p-4 text-red-600 bg-red-50 rounded-lg text-center font-medium">Error: {error}</div>;
 
   return (
-    // Penyesuaian h-[calc(100vh-85px)] agar menyisakan ruang lebih untuk navbar, margin di-press jadi py-2
     <section className="w-full max-w-[1400px] mx-auto px-4 md:px-8 py-2 h-[calc(100vh-85px)] min-h-[500px] flex flex-col">
       
-      {/* Header dibuat lebih rapat dengan mb-2 */}
       <div className="mb-2 shrink-0 w-full flex flex-col md:flex-row md:items-end md:justify-between gap-2">
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-0.5">
@@ -163,12 +162,12 @@ export default function Hierarki() {
           <div className="flex flex-col gap-1 bg-white p-1.5 md:p-2 rounded-lg border border-gray-200 shadow-sm shrink-0">
             <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider text-center">Laju Pertumbuhan (YoY)</span>
             <div className="flex items-center justify-center gap-2">
-              <span className="text-[10px] text-[#b2182b] font-bold">&le; -{COLOR_LIMIT}%</span>
+              <span className="text-[10px] text-[#e66101] font-bold">&le; -{COLOR_LIMIT}%</span>
               <div 
                 className="h-3 w-28 md:w-36 rounded shadow-inner" 
-                style={{ background: 'linear-gradient(to right, #b2182b, #f7f7f7, #1b7837)' }}
+                style={{ background: 'linear-gradient(to right, #e66101, #f7f7f7, #0571b0)' }}
               />
-              <span className="text-[10px] text-[#1b7837] font-bold">&ge; +{COLOR_LIMIT}%</span>
+              <span className="text-[10px] text-[#0571b0] font-bold">&ge; +{COLOR_LIMIT}%</span>
             </div>
           </div>
         )}
@@ -200,12 +199,12 @@ export default function Hierarki() {
                   <p className="text-[11px] text-gray-700 mt-0.5">{insights.largestGroup.val} ({insights.largestGroup.pct} dari total)</p>
                 </div>
                 <div className="bg-emerald-50/50 border border-emerald-100 p-2.5 rounded-xl shadow-sm shrink-0">
-                  <p className="text-[10px] text-emerald-600 font-bold uppercase tracking-wider mb-0.5">Konsentrasi 3 Teratas (2025)</p>
+                  <p className="text-[10px] text-emerald-600 font-bold uppercase tracking-wider mb-0.5">Konsentrasi 3 Teratas</p>
                   <p className="text-sm font-bold text-gray-900 leading-tight">{insights.top3Share} Pengeluaran</p>
                   <p className="text-[11px] text-gray-700 mt-0.5">Terserap hanya oleh 3 kelompok utama.</p>
                 </div>
                 <div className="bg-purple-50/50 border border-purple-100 p-2.5 rounded-xl shadow-sm shrink-0">
-                  <p className="text-[10px] text-purple-600 font-bold uppercase tracking-wider mb-0.5">Komoditas Tunggal Tertinggi (2025)</p>
+                  <p className="text-[10px] text-purple-600 font-bold uppercase tracking-wider mb-0.5">Komoditas Tunggal Tertinggi</p>
                   <p className="text-sm font-bold text-gray-900 leading-tight">{insights.largestCommodity.label}</p>
                   <p className="text-[11px] text-gray-700 mt-0.5">{insights.largestCommodity.val} ({insights.largestCommodity.pct} dari total)</p>
                 </div>
