@@ -11,7 +11,7 @@ Tautan Web Live: [https://fadstdy.github.io/jateng-food-webstory/](https://fadst
 1. **Data Hierarki (Pengeluaran Pangan)**
    - Visualisasi Treemap dan Sunburst (3 level: Total > Kelompok > Komoditas).
    - Fitur *drill-down* dan *breadcrumb* navigasi.
-   - Mengodekan ukuran (pengeluaran per kapita sebulan) dan warna (kategori kelompok makanan).
+   - Mengodekan ukuran (pengeluaran per kapita sebulan) dan divergen (laju pertumbuhan YoY dibanding 2024).
 
 2. **Data Geospasial (Produksi Padi & Tenaga Kerja 2020–2025)**
    - Peta Koroplet Kuantil untuk produksi padi per kapita.
