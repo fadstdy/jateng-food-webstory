@@ -2,7 +2,7 @@ import { InsightCard, SourceTag } from '../components/UI';
 
 export default function Kesimpulan() {
   return (
-    <div className="flex flex-col gap-6 py-6">
+    <div id="kesimpulan" className="flex flex-col gap-6 py-6">
       <div>
         <h2 className="font-display text-3xl font-bold text-hijau-utama mb-3">
           Kesimpulan

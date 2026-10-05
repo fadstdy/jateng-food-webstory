@@ -2,7 +2,7 @@ import { InsightCard, SourceTag } from '../components/UI';
 
 export default function Metodologi() {
   return (
-    <div className="grid md:grid-cols-3 gap-6 py-6">
+    <div id="metodologi" className="grid md:grid-cols-3 gap-6 py-6">
       <div className="md:col-span-2 bg-putih border border-garis rounded-xl p-6 shadow-sm">
         <h3 className="font-display text-xl font-bold text-hijau-utama mb-4">
           Metodologi & Pengolahan Data

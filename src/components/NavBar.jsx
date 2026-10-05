@@ -6,7 +6,6 @@ const navLinks = [
   { id: 'geospasial', label: 'Peta' },
   { id: 'multivariat', label: 'Faktor' },
   { id: 'kesimpulan', label: 'Akhir' },
-  { id: 'metodologi', label: 'Metode' }
 ];
 
 const NavBar = () => {
@@ -22,7 +21,7 @@ const NavBar = () => {
 
       let current = 'pembuka';
       
-      // 2. CEK DARI BAWAH KE ATAS: Agar section yang baru muncul di layar bawah langsung merespon
+      // 2. CEK DARI BAWAH KE ATAS
       const reversedLinks = [...navLinks].reverse();
       
       for (let link of reversedLinks) {
@@ -33,7 +32,7 @@ const NavBar = () => {
           // Jika batas atas section sudah melewati 250px dari atas layar
           if (rect.top <= 250) {
             current = link.id;
-            break; // Berhenti ngecek karena kita sudah menemukan sectionnya
+            break;
           }
         }
       }
@@ -42,15 +41,14 @@ const NavBar = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-    
-    // Panggil sekali untuk deteksi awal (jeda 200ms agar halaman selesai dimuat dulu)
     setTimeout(handleScroll, 200);
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <nav className="fixed top-0 w-full bg-[#FAF8F2]/95 backdrop-blur-md z-50 border-b border-green-900/10 shadow-sm transition-all duration-300">
+    // PERBAIKAN Z-INDEX: Mengubah z-50 menjadi z-[9999] agar selalu di atas grafik Plotly/Peta
+    <nav className="fixed top-0 w-full bg-[#FAF8F2]/95 backdrop-blur-md z-[9999] border-b border-green-900/10 shadow-sm transition-all duration-300">
       <div className="flex justify-center items-center p-4 space-x-6 md:space-x-10 max-w-7xl mx-auto w-full">
         {navLinks.map((link) => (
           <a 
@@ -64,7 +62,6 @@ const NavBar = () => {
           >
             {link.label}
             
-            {/* Garis Bawah - Akan langsung berpindah saat discroll */}
             {activeSection === link.id && (
               <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#2F5D2F] rounded-full transition-all duration-300"></span>
             )}

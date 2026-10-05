@@ -146,7 +146,7 @@ export default function Hierarki() {
   if (error) return <div className="p-4 text-red-600 bg-red-50 rounded-lg text-center font-medium">Error: {error}</div>;
 
   return (
-    <section className="w-full max-w-[1400px] mx-auto px-4 md:px-8 py-2 h-[calc(100vh-85px)] min-h-[500px] flex flex-col">
+    <section id="hierarki" className="w-full max-w-[1400px] mx-auto px-4 md:px-8 py-2 h-[calc(100vh-85px)] min-h-[500px] flex flex-col">
       
       <div className="mb-2 shrink-0 w-full flex flex-col md:flex-row md:items-end md:justify-between gap-2">
         <div>

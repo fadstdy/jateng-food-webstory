@@ -61,7 +61,7 @@ export default function Geospasial() {
 
   return (
     // DIET 1: Padding py-6 diubah jadi py-2 (sangat mepet atas bawah)
-    <section className="relative w-full max-w-[1400px] mx-auto py-2 px-4 flex flex-col gap-3 min-h-screen justify-center">
+    <section id="geospasial" className="relative w-full max-w-[1400px] mx-auto py-2 px-4 flex flex-col gap-3 min-h-screen justify-center">
       
       {/* Header Judul (Gap diperkecil) */}
       <div className="space-y-0.5">
