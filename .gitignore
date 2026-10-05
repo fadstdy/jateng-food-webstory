@@ -24,7 +24,6 @@ dist-ssr
 *.sw?
 
 # Data mentah & file spasial besar (dari analisis Python luar)
-analysis/
 public/data/raw/
 *.shp
 *.shx
